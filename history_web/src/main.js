@@ -8,11 +8,13 @@ import 'element-ui/lib/theme-chalk/index.css'//element-ui的css
 import Store from './store'
 import './style/index.scss' //global css
 import Axios from './axios'
+import qs from 'qs'
 
 
 Vue.use(ElementUI) //使用elementUI
 Vue.use(Axios)
 Vue.prototype.$ajax = Axios
+Vue.prototype.$qs = qs
 
 Vue.config.productionTip = false
 

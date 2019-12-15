@@ -1,5 +1,5 @@
 <template>
-  <section class="main-container">
+  <section>
     <transition name="fade" mode="out-in">
         <router-view :key="key"></router-view>
     </transition>
@@ -11,7 +11,6 @@
       name: 'main-container',
       computed: {
         key() {
-          console.log(this.$route.fullPath)
           return this.$route.fullPath
         }
       }

@@ -49,12 +49,8 @@ export default {
   methods: {
     getData() {
       var api = "/menu/listMenu"
-      console.log("22222222222")
       this.$ajax.get(api).then(res => {
         this.list = res.data
-        console.log(res)
-        console.log(res.data)
-        console.log(JSON.stringify(res.data))
       }).catch(error => {
         console.log(error.message)
       })
@@ -70,7 +66,6 @@ export default {
     };
   },
   mounted() {
-    console.log("333333333")
     this.getData()
   }
 };
