@@ -12,6 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication
 @MapperScan(Array("com.ade.history.mapper"))
 class HistoryApplication
-object HistoryApplication extends App {
-    SpringApplication.run(classOf[HistoryApplication])
+object HistoryApplication {
+    def main(args: Array[String]): Unit = {
+        SpringApplication.run(classOf[HistoryApplication])
+    }
 }

@@ -23,7 +23,17 @@ class MenuController {
 
     @GetMapping(Array("/listMenu"))
     def listMenu(): util.ArrayList[Any] = {
-
         menuServer.listMenu()
+    }
+
+    @GetMapping(Array("/getMenus"))
+    def getMenus(): util.ArrayList[Any] = {
+        menuServer.getMenus()
+    }
+
+    @PostMapping(Array("/updateData"))
+    def updateData(@RequestParam(value = "menu") menu: String): String = {
+        menuServer.updateData(menu)
+        "OK"
     }
 }

@@ -7,5 +7,17 @@ package com.ade.history.server
   */
 trait MenuServer {
 
+    /**
+     * 获取菜单栏，用于左侧菜单栏
+     * @return
+     */
     def listMenu(): java.util.ArrayList[Any]
+
+    /**
+     * 获取菜单栏，用于菜单增删改
+     * @return
+     */
+    def getMenus(): java.util.ArrayList[Any]
+
+    def updateData(menu: String)
 }

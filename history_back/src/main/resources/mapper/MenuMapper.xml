@@ -12,4 +12,16 @@
         ORDER BY 1,5
     </select>
 
+    <update id="updateData" statementType="STATEMENT">
+        UPDATE
+            menu
+        SET
+            icon = '${icon}',
+            <if test="url != null">url = '${url}',</if>
+            <if test="parentid != 0">parent_id = ${parentid},</if>
+            name = '${name}'
+        WHERE
+            id = ${id}
+    </update>
+
 </mapper>
