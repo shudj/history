@@ -1,5 +1,5 @@
 <template>
-  <div style="width:95%">
+  <div style="width:100%">
     <div class="button" style="width:3%;float:right;">
       <P><el-button class="el-icon-plus" @click.prevent="addRow()"></el-button></P>
       <p><el-button class="el-icon-minus" @click.prevent="delData()"></el-button></p>
@@ -10,6 +10,7 @@
         :data="tableData"
         ref="table"
         tooltip-effect="dark"
+        height="600"
         border
         stripe
         style="width: 95%"
@@ -32,7 +33,7 @@
         </el-table-column>
         <el-table-column label="url">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.url" v-show="scope.row.url"></el-input>
+            <el-input v-model="scope.row.url"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="父菜单">
@@ -62,7 +63,7 @@ export default {
         getData() {
             var url = "/menu/getMenus"
             this.$ajax.get(url).then(res => {
-                this.tableData = res.data
+                this.tableData = res.data.data
             }).catch(error => {
                 console.log(error.message)
             })
@@ -126,7 +127,7 @@ export default {
                 })
             })
             .then(res => {
-                alert(res.data)
+                alert(res.data.data)
             }).catch(error => {
                 console.log(error.message)
             })

@@ -50,7 +50,7 @@ export default {
     getData() {
       var api = "/menu/listMenu"
       this.$ajax.get(api).then(res => {
-        this.list = res.data
+        this.list = res.data.data
       }).catch(error => {
         console.log(error.message)
       })
