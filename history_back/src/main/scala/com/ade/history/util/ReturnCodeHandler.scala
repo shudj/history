@@ -16,15 +16,15 @@ class ReturnCodeHandler extends ResponseBodyAdvice[Any]{
     @ExceptionHandler(Array(classOf[InternetException]))
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    def internetException(e: InternetException): Resp[Any] = {
+    def internetException(e: InternetException): Any = {
         new Resp[Any](String.valueOf(Code.INTERNET_ERROR).toInt, e.getMessage, null)
     }
 
 
     @ExceptionHandler(Array(classOf[ParamsException]))
     @ResponseBody
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    def paramsException(e: ParamsException): Resp[Any] =
+    @ResponseStatus(HttpStatus.OK)
+    def paramsException(e: ParamsException): Any =
         new Resp[Any](String.valueOf(Code.REQUEST_PARAM_ERROR).toInt, e.getMessage, null)
 
     override def supports(methodParameter: MethodParameter,
