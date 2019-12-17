@@ -14,6 +14,8 @@ trait MenuMapper {
 
     def listMenu(): util.ArrayList[Any]
 
+    def getMenus(): util.ArrayList[Any]
+
     def updateData(@Param("id") id: Int,
                    @Param("name") name: String,
                    @Param("icon") icon: String,

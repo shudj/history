@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.{ControllerAdvice, ExceptionHandl
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice
 
 @ControllerAdvice
-class ReturnCodeHandler extends ResponseBodyAdvice[Any]{
+class ReturnCodeHandler extends ResponseBodyAdvice[Any] with Log {
 
     @ExceptionHandler(Array(classOf[InternetException]))
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     def internetException(e: InternetException): Any = {
+        error(e.getMessage)
         new Resp[Any](String.valueOf(Code.INTERNET_ERROR).toInt, e.getMessage, null)
     }
 
@@ -24,8 +25,10 @@ class ReturnCodeHandler extends ResponseBodyAdvice[Any]{
     @ExceptionHandler(Array(classOf[ParamsException]))
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    def paramsException(e: ParamsException): Any =
+    def paramsException(e: ParamsException): Any = {
+        error(e.getMessage)
         new Resp[Any](String.valueOf(Code.REQUEST_PARAM_ERROR).toInt, e.getMessage, null)
+    }
 
     override def supports(methodParameter: MethodParameter,
                           aClass: Class[_ <: HttpMessageConverter[_]]): Boolean = {

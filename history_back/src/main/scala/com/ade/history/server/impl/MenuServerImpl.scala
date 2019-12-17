@@ -5,7 +5,8 @@ import java.util
 import com.ade.history.exception.{InternetException, ParamsException}
 import com.ade.history.mapper.MenuMapper
 import com.ade.history.server.MenuServer
-import com.alibaba.fastjson.{JSON, JSONObject}
+import com.ade.history.util.Log
+import com.alibaba.fastjson.JSON
 import org.springframework.beans.factory.annotation.{Autowired, Qualifier}
 import org.springframework.stereotype.Service
 
@@ -16,30 +17,20 @@ import org.springframework.stereotype.Service
   */
 @Service
 @Qualifier("menuServer")
-class MenuServerImpl extends MenuServer{
+class MenuServerImpl extends MenuServer with Log {
 
     @Autowired
     private[this] val menuMapper: MenuMapper = null
 
     override def listMenu(): util.ArrayList[Any] = {
         try {
-            val buffer = new util.ArrayList[Any]()
+            val list: util.ArrayList[Any] = menuMapper.listMenu()
             import scala.collection.JavaConversions._
-            val array = menuMapper.listMenu()
-            var children: util.ArrayList[Any] = null
-            array.foreach(arr => {
-                val map = arr.asInstanceOf[util.Map[String, Any]]
-                if (map.get("parentid") == null) {
-                    children = new util.ArrayList[Any]()
-                    map.put("children", children)
-                    buffer.add(map)
-                } else {
-                    map.put("children", Array())
-                    children.add(map)
-                }
+            list.foreach(li => {
+                val map = li.asInstanceOf[util.Map[String, Any]]
+                map.put("children", JSON.parseArray(String.valueOf(map.get("children"))).toArray)
             })
-
-            buffer
+            list
         } catch {
             case e: Exception => throw new InternetException(e.getMessage)
         }
@@ -52,7 +43,7 @@ class MenuServerImpl extends MenuServer{
      */
     override def getMenus(): util.ArrayList[Any] = {
         try {
-            menuMapper.listMenu()
+            menuMapper.getMenus()
         } catch {
             case e: Exception => throw new InternetException(e.getMessage)
         }

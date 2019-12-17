@@ -5,13 +5,50 @@
 
     <!--根据商品名称查询商品信息-->
     <select id="listMenu" statementType="STATEMENT" resultType="java.util.Map" parameterType="java.lang.String">
+        WITH parent as (
+            SELECT
+                id, name, icon, url
+            FROM
+                menu
+            WHERE
+                parent_id is null
+        ),
+        children as (
+            SELECT
+                CONCAT("{\"id\":", id,
+                     ",\"name\":\"", name,
+                     "\",\"icon\":", case when icon is null then "\"\"" else icon end,
+                     ",\"url\":\"", url,
+                     "\",\"parentid\":\"", parent_id, "\"}"
+                ) a,
+                parent_id
+            FROM
+                menu
+            WHERE
+                parent_id is not null
+        ),
+        tmp as (
+            SELECT
+                parent_id, GROUP_CONCAT(a) a
+            FROM
+                children
+            GROUP BY 1
+        )
         SELECT
-          id, name, icon, url, parent_id parentid
+            p.id, p.name, p.icon,p.url,
+            concat("[",case when c.a is null then "" else c.a end,"]") children
         FROM
-          menu
-        ORDER BY 1,5
+            parent p
+        LEFT JOIN tmp c
+        ON p.id = c.parent_id
+        ORDER BY 5
     </select>
-
+    <select id="getMenus" statementType="STATEMENT" resultType="java.util.Map">
+        select
+            id, name, icon, url, parent_id parentid
+        FROM
+            menu
+    </select>
     <update id="updateData" statementType="STATEMENT">
         UPDATE
             menu
